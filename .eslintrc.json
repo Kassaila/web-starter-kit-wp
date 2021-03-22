@@ -15,7 +15,7 @@
     "es2021": true
   },
   "plugins": ["import", "@babel", "prettier"],
-  "extends": ["airbnb-base", "prettier", "prettier/babel"],
+  "extends": ["airbnb-base", "prettier"],
   "rules": {
     "no-param-reassign": ["error", { "props": false }],
     "no-underscore-dangle": "off",
