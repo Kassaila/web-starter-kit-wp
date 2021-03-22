@@ -1,34 +1,32 @@
 /**
  * Build styles for application from SASS
  */
-'use strict';
 
+const env = require('../helpers/env');
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
-const gcmq = require('postcss-sort-media-queries');
+const sortMedia = require('postcss-sort-media-queries');
 
 const notifier = require('../helpers/notifier');
 const global = require('../gulp-config.js');
 
+env({ path: process.env.DOTENV_CONFIG_PATH });
 sass.compiler = require('sass');
 
 module.exports = function () {
-  const production = global.isProduction();
-  const plugins = [
-    autoprefixer(),
-  ];
+  const plugins = [autoprefixer()];
 
-  if (production) {
-    plugins.push(gcmq({ sort: global.buildStyles.sortType, }));
+  if (process.env.NODE_ENV === 'production') {
+    plugins.push(sortMedia({ sort: global.buildStyles.sortType }));
   }
 
-  return (done) => {
-    return gulp.src(`./scss/${global.file.mainStylesSrc}`, { sourcemaps: !production })
-      .pipe(sass.sync({ sourceMap: !production, }))
+  return (done) =>
+    gulp
+      .src('./scss/*.scss', { sourcemaps: process.env.NODE_ENV === 'production' })
+      .pipe(sass.sync({ sourceMap: process.env.NODE_ENV === 'production' }))
       .on('error', (error) => notifier.error(error.message, 'Main Sass compiling error', done))
       .pipe(postcss(plugins))
       .pipe(gulp.dest(`../${global.folder.build}/css`, { sourcemaps: './' }));
-  };
 };

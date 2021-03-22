@@ -1,26 +1,27 @@
 /**
  * Build js
  */
-'use strict';
 
+const env = require('../helpers/env');
 const webpack = require('webpack');
 const path = require('path');
 
 const notifier = require('../helpers/notifier');
 const global = require('../gulp-config.js');
 
-module.exports = function () {
-  const production = global.isProduction();
+env({ path: process.env.DOTENV_CONFIG_PATH });
 
+module.exports = function () {
   return (done) => {
     try {
       const config = {
         mode: 'none',
-        entry: `./js/${global.file.mainJs}`,
+        entry: global.buildJs.getEntryPoints(),
         output: {
-          path: path.resolve(`../${global.folder.build}`, `js/`),
-          filename: global.file.buildJs,
+          path: path.resolve(`../${global.folder.build}`, 'js/'),
+          filename: '[name].js',
         },
+        target: 'browserslist',
         optimization: {
           splitChunks: {
             chunks: 'all',
@@ -29,11 +30,11 @@ module.exports = function () {
             cacheGroups: {
               vendor: {
                 test: /[\\/](node_modules|vendor_entries)[\\/]/,
-                filename: global.file.vendorJs,
+                filename: `${global.file.js.vendor}.js`,
               },
             },
           },
-          minimize: false,
+          minimize: process.env.NODE_ENV === 'production',
         },
         module: {
           rules: [
@@ -42,19 +43,24 @@ module.exports = function () {
               exclude: /(node_modules)/,
               use: {
                 loader: 'babel-loader',
-              }
-            }
-          ]
+              },
+            },
+          ],
         },
         externals: global.buildJs.externalLibs,
+        plugins: [
+          new webpack.DefinePlugin({
+            'process.env': JSON.stringify(process.env),
+          }),
+        ],
       };
 
       webpack(config, (error, stats) => {
         if (error) {
           throw new Error(error);
         }
-        
-        if (production) {
+
+        if (process.env.NODE_ENV === 'production') {
           console.log(
             stats.toString({
               version: false,

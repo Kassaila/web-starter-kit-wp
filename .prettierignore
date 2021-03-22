@@ -1,0 +1,38 @@
+# configs and main entry
+.env*
+!.env*.example
+
+# caches
+Thumbs.db
+.DS_Store
+/src/bootstrap/cache/*
+
+# IDE config
+/src/.idea
+/Homestead.json
+/Homestead.yaml
+/_ide_helper.php
+/.phpstorm.meta.php
+/.idea
+/nbproject
+/.buildpath
+/.project
+/.settings
+/jsconfig.json
+/.git/
+
+# system
+/system_files/
+
+# vendor
+/node_modules/
+/vendor_entries/
+package-lock.json
+
+# production
+/dist
+/docs
+
+# Logs
+npm-debug.log
+yarn-error.log

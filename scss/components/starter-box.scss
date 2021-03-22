@@ -8,18 +8,18 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
   color: var(--color-white);
 
   h1 {
     @include animate(text-shadow);
-    font-size: rem(48px);
     color: var(--color-white);
+    font-size: rem(48px);
     @include media('hover') {
       &:hover {
         text-shadow: 0.1rem 0.5rem 0.5rem rgba(#fff, 0.5);
@@ -36,22 +36,22 @@
 }
 
 .entry-cells {
-  background: var(--base-background-color);
-  height: 100%;
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  background: var(--base-background-color);
 
   .cell {
+    position: relative;
     width: 10%;
     height: 10%;
-    position: relative;
 
     &:after {
       content: '';
       position: absolute;
-      height: 0.5rem;
       width: 0.5rem;
+      height: 0.5rem;
       border-radius: 50%;
       background-color: var(--color-white);
       animation-name: pulse;
@@ -61,8 +61,8 @@
 
   @for $i from 0 through 100 {
     .cell-#{$i}:after {
-      left: #{random(100)} + '%';
       top: #{random(100)} + '%';
+      left: #{random(100)} + '%';
       animation-duration: #{(random(100) + 100) / 100}s;
       animation-delay: #{random(100) / 100}s;
     }

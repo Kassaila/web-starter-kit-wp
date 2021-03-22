@@ -4,8 +4,8 @@
 
 form,
 fieldset {
-  margin: 0;
   padding: 0;
+  margin: 0;
   border-style: none;
 }
 
@@ -15,12 +15,14 @@ input[type='email'],
 input[type='search'],
 input[type='password'],
 textarea {
-  appearance: none;
+  vertical-align: top;
   box-sizing: border-box;
-  font-family: var(--form-font-family);
-  border-radius: 0;
-  border: 0.1rem solid var(--form-element-border-color);
   padding: var(--form-element-padding);
+  border: 0.1rem solid var(--form-element-border-color);
+  border-radius: 0;
+  font-family: var(--form-font-family);
+  resize: vertical;
+  appearance: none;
 
   &:focus {
     border-color: var(--form-element-focus-border-color);
@@ -35,18 +37,13 @@ select {
   border-radius: 0;
 }
 
-textarea {
-  resize: vertical;
-  vertical-align: top;
-}
-
 button,
 input[type='button'],
 input[type='reset'],
 input[type='file'],
 input[type='submit'] {
-  appearance: none;
   border-radius: 0;
-  cursor: pointer;
   font-family: var(--form-font-family);
+  cursor: pointer;
+  appearance: none;
 }

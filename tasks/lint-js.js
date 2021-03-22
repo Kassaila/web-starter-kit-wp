@@ -1,26 +1,20 @@
 /**
- * Lint ES
+ * Lint JavaScript files
  */
-'use strict';
+const { ESLint } = require('eslint');
 
-const CLIEngine = require('eslint').CLIEngine;
-
-const global = require('../gulp-config.js');
-
-module.exports = function (options) {
-  const fixJs = global.isFixJs();
-  const cli = new CLIEngine({
-    fix: fixJs,
+module.exports = function () {
+  const eslint = new ESLint({
     useEslintrc: true,
   });
 
-  return (done) => {
-    const report = cli.executeOnFiles(['./js/**/*.js']);
-    const formatter = cli.getFormatter();
+  return async (done) => {
+    const results = await eslint.lintFiles(['./js/**/*.js']);
 
-    if (formatter(report.results) !== '') console.log(formatter(report.results));
+    const formatter = await eslint.loadFormatter('stylish');
+    const resultText = formatter.format(results);
 
-    CLIEngine.outputFixes(report);
+    if (resultText !== '') console.log(resultText);
 
     return done();
   };

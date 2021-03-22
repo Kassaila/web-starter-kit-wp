@@ -14,10 +14,10 @@ html {
 
 body {
   @include font-smoothing(on);
-  color: var(--base-text-color);
-  background: var(--base-background-color);
-  font: var(--base-font-size) / var(--base-line-height) var(--base-font-family);
   min-width: var(--base-min-width);
+  background: var(--base-background-color);
+  color: var(--base-text-color);
+  font: var(--base-font-size) / var(--base-line-height) var(--base-font-family);
 }
 
 // adaptive images

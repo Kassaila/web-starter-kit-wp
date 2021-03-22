@@ -1,7 +1,6 @@
 /**
  * Build styles for vendor from SASS
  */
-'use strict';
 
 const gulp = require('gulp');
 const sass = require('gulp-sass');
@@ -14,15 +13,13 @@ const global = require('../gulp-config.js');
 sass.compiler = require('sass');
 
 module.exports = function () {
-  const plugins = [
-    cssimport(),
-  ];
+  const plugins = [cssimport()];
 
-  return (done) => {
-    return gulp.src(`./vendor_entries/${global.file.vendorStylesSrc}`)
+  return (done) =>
+    gulp
+      .src(`./vendor_entries/${global.file.styles.vendor}.scss`)
       .pipe(sass.sync())
       .on('error', (error) => notifier.error(error.message, 'Vendor Sass compiling error', done))
       .pipe(postcss(plugins))
       .pipe(gulp.dest(`../${global.folder.build}/css`));
-  };
 };

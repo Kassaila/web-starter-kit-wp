@@ -14,6 +14,6 @@ module.exports = {
     console.log(`\u{1b}[33m${error}\u{1b}[0m`);
     console.log(error);
 
-    return callback ? callback() : null;
+    if (callback) return callback();
   },
 };

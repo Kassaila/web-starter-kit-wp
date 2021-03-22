@@ -2,8 +2,7 @@
 // will be correctly compiled during `gulp` and `gulp production`
 
 //* Vendors *//
-@import './vendor_entries/_include-media-or.scss';
-
+@import './vendor_entries/_include-media-or';
 
 //* Abstracts modules *//
 @import 'abstracts/main';

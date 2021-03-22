@@ -1,39 +1,33 @@
 /**
  * Build custom styles files listed in the config, without sourcemaps & Gcmq
  */
-'use strict';
 
+const env = require('../helpers/env');
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
-const gcmq = require('postcss-sort-media-queries');
+const sortMedia = require('postcss-sort-media-queries');
 
 const notifier = require('../helpers/notifier');
 const global = require('../gulp-config.js');
 
+env({ path: process.env.DOTENV_CONFIG_PATH });
 sass.compiler = require('sass');
 
 module.exports = function () {
-  const production = global.isProduction();
-  const { files, isGcmq } = global.getFilesForStylesCustom();
-  const plugins = [
-    autoprefixer(),
-  ];
+  const { isSortMedia } = global.buildStyles.custom.isSortMedia;
+  const plugins = [autoprefixer()];
 
-  if (isGcmq) {
-    plugins.push(gcmq({ sort: global.buildStyles.sortType, }));
+  if (isSortMedia) {
+    plugins.push(sortMedia({ sort: global.buildStyles.sortType }));
   }
 
-  return (done) => {
-    if (files.length > 0) {
-      return gulp.src(files, { sourcemaps: !production })
-        .pipe(sass.sync({ sourceMap: !production, }))
-        .on('error', (error) => notifier.error(error.message, 'Custom Sass compiling error', done))
-        .pipe(postcss(plugins))
-        .pipe(gulp.dest(`../${global.folder.build}/css`, { sourcemaps: './' }));
-    }
-
-    return done();
-  };
+  return (done) =>
+    gulp
+      .src('./scss/custom/*.scss', { sourcemaps: process.env.NODE_ENV === 'production' })
+      .pipe(sass.sync({ sourceMap: process.env.NODE_ENV === 'production' }))
+      .on('error', (error) => notifier.error(error.message, 'Custom Sass compiling error', done))
+      .pipe(postcss(plugins))
+      .pipe(gulp.dest(`../${global.folder.build}/css`, { sourcemaps: './' }));
 };

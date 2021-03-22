@@ -1,7 +1,6 @@
 /**
  * Clean build folder
  */
-'use strict';
 
 const del = require('del');
 
@@ -13,16 +12,10 @@ module.exports = function () {
     dot: true,
   };
 
-  const production = global.isProduction();
-  const devFolders = [
+  const delFolders = [
     `../${global.folder.build}/css/**`,
     `../${global.folder.build}/js/**`,
     `../${global.folder.build}/**/*.html`,
-  ];
-  const buildFolders = production ? [] : [];
-  const delFolders = [
-    ...devFolders,
-    ...buildFolders,
   ];
 
   return async () => {

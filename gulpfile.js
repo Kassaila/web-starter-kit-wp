@@ -23,16 +23,16 @@
  *
  */
 
-'use strict';
-
+require('dotenv').config();
 const gulp = require('gulp');
 const browserSyncInstance = require('browser-sync').create();
 
-const global = require('./gulp-config.js');
-
+// Tasks modules
+const loadEnv = require('./tasks/load-env');
 const cleanBuild = require('./tasks/clean-build');
 const lintHtml = require('./tasks/lint-html');
 const buildHtml = require('./tasks/build-html');
+const lintStyles = require('./tasks/lint-styles');
 const buildStyles = require('./tasks/build-styles');
 const buildStylesCustom = require('./tasks/build-styles-custom');
 const buildStylesVendors = require('./tasks/build-styles-vendors');
@@ -42,103 +42,94 @@ const browserSync = require('./tasks/browser-sync-server');
 const watch = require('./tasks/watch');
 
 /**
+ * Initialize .env files
+ */
+gulp.task('load-env', loadEnv());
+/**
  * Clean build folders
  */
-gulp.task(global.task.cleanBuild, cleanBuild());
+gulp.task('clean-build', cleanBuild());
 /**
  * Lint HTML
  */
-gulp.task(global.task.lintHtml, lintHtml());
+gulp.task('lint-html', lintHtml());
 
 /**
  * Template HTML
  */
-gulp.task(global.task.buildHtml, buildHtml());
+gulp.task('build-html', buildHtml());
+
+/**
+ * Lint styles
+ */
+gulp.task('lint-styles', lintStyles());
 
 /**
  * Build styles for application
  */
-gulp.task(global.task.buildStyles, buildStyles());
+gulp.task('build-styles', buildStyles());
 
 /**
  * Build custom styles files listed in the config, without sourcemaps & Gcmq
  */
-gulp.task(global.task.buildStylesCustom, buildStylesCustom());
+gulp.task('build-styles-custom', buildStylesCustom());
 
 /**
  * Build styles for vendor
  */
-gulp.task(global.task.buildStylesVendors, buildStylesVendors());
+gulp.task('build-styles-vendors', buildStylesVendors());
 
 /**
  * Lint JS
  */
-gulp.task(global.task.lintJs, lintJs());
-
-/**
- * Fix JS files
- */
-gulp.task(global.task.fixJs, lintJs());
+gulp.task('lint-js', lintJs());
 
 /**
  * Build JS
  */
-gulp.task(global.task.buildJs, buildJs());
+gulp.task('build-js', buildJs());
 
 /**
  * Start browserSync server
  */
-gulp.task(global.task.browserSync, browserSync({ browserSyncInstance }));
+gulp.task('browser-sync', browserSync({ browserSyncInstance }));
 
 /**
  * Watch for file changes
  */
-gulp.task(global.task.watch, watch({ browserSyncInstance }));
+gulp.task('watch', watch({ browserSyncInstance }));
 
 /**
  * Develop mode - with browser sync, file watch & live reload
  */
-gulp.task('default', gulp.series(
-  global.task.cleanBuild,
-  global.task.lintJs,
-  gulp.parallel(
-    gulp.series(
-      global.task.buildHtml,
-      global.task.lintHtml,
+gulp.task(
+  'default',
+  gulp.series(
+    'clean-build',
+    'lint-js',
+    'lint-styles',
+    gulp.parallel(
+      gulp.series('build-html', 'lint-html'),
+      gulp.series('build-styles', 'build-styles-custom', 'build-styles-vendors'),
+      gulp.series('build-js')
     ),
-    gulp.series(
-      global.task.buildStyles,
-      global.task.buildStylesCustom,
-      global.task.buildStylesVendors,
-    ),
-    gulp.series(
-      global.task.buildJs,
-    ),
-  ),
-  gulp.parallel(
-    global.task.browserSync,
-    global.task.watch,
-  ),
-));
+    gulp.parallel('browser-sync', 'watch')
+  )
+);
 
 /**
  * Production mode - creating production folder without unnecessary files
  */
-gulp.task(global.task.build, gulp.series(
-  global.task.cleanBuild,
-  global.task.lintJs,
-  gulp.parallel(
-    gulp.series(
-      global.task.buildHtml,
-      global.task.lintHtml,
-    ),
-    gulp.series(
-      global.task.buildStyles,
-      global.task.buildStylesCustom,
-      global.task.buildStylesVendors,
-    ),
-    gulp.series(
-      global.task.buildJs,
-    ),
-  ),
-));
+gulp.task(
+  'build',
+  gulp.series(
+    'clean-build',
+    'lint-js',
+    'lint-styles',
+    gulp.parallel(
+      gulp.series('build-html', 'lint-html'),
+      gulp.series('build-styles', 'build-styles-custom', 'build-styles-vendors'),
+      gulp.series('build-js')
+    )
+  )
+);

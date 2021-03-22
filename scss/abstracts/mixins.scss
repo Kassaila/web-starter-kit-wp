@@ -2,7 +2,6 @@
 //
 // Note: If you use a framework (bootstrap, zurb etc.) that includes mixins you can import them too or remove this file.
 
-
 /// Mixin helping with long string of the url
 /// @link https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
 /// @example @include word-wrap;
@@ -54,12 +53,12 @@
 /// or @include v-align-pair(image, text, bottom);
 /// or @include v-align-pair(image, text, middle, 200px);
 
-@mixin v-align-pair($child-name1, $child-name2, $valign: middle, $width1: auto, $width2: auto ) {
+@mixin v-align-pair($child-name1, $child-name2, $valign: middle, $width1: auto, $width2: auto) {
   display: table;
-  .#{$child-name1}{
+  .#{$child-name1} {
     display: table-cell;
     vertical-align: $valign;
-    width: $width1; 
+    width: $width1;
   }
   .#{$child-name2} {
     display: table-cell;
@@ -67,7 +66,6 @@
     width: $width2;
   }
 }
-
 
 /// Vertical align el
 /// @example @include vertical-align-el;
@@ -94,17 +92,15 @@
 /// Font-smothing
 /// @example @include font-smoothing(on);
 /// @include font-smoothing(off);
-@mixin font-smoothing($value: on){
-  @if $value == on{
+@mixin font-smoothing($value: on) {
+  @if $value == on {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-  @else{
+  } @else {
     -webkit-font-smoothing: subpixel-antialiased;
     -moz-osx-font-smoothing: auto;
   }
 }
-
 
 /// Hides the text in an element, commonly used to show an image. Some elements will need block-level styles applied.
 /// @link http://zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement
@@ -116,12 +112,11 @@
   white-space: nowrap;
 }
 
-
 /// Creates a visual triangle
 /// values—foreground-color background-color.
 /// @link http://bourbon.io/docs/#triangle
 /// @param $size - argument can take one or two values—width height
-/// @param $color - argument can take one or two 
+/// @param $color - argument can take one or two
 /// @param $direction - value: up, down, left, right, up-right, up-left, down-right, down-left
 /// @example @include triangle(12px, gray, down);
 /// @include triangle(12px 6px, gray blue, up-left);
@@ -190,7 +185,6 @@
   }
 }
 
-
 /// Animate css properties
 /// @example @include animate(color);
 /// or @include animate(color width);
@@ -201,14 +195,14 @@ $animation-speed: 0.3s !default;
 
 @mixin animate($properties, $duration: $animation-speed, $easing: ease-in-out, $delay: false) {
   @if ($properties and $duration and $easing and $delay) {
-    $list:();
+    $list: ();
     @each $prop in $properties {
       $str: #{$prop} #{$duration} #{$easing} #{$delay};
       $list: append($list, $str, comma);
     }
     transition: $list;
   } @else {
-    $list:();
+    $list: ();
     @each $prop in $properties {
       $str: #{$prop} #{$duration} #{$easing};
       $list: append($list, $str, comma);
@@ -217,14 +211,24 @@ $animation-speed: 0.3s !default;
   }
 }
 
-
 /// Mixin for styling form-placeholders
 /// @example @include placeholder { color: red; }
 
 @mixin placeholder {
-  &::-webkit-input-placeholder {@content;}
-  &::-moz-placeholder {opacity: 1; @content;}
-  &:-moz-placeholder {@content;}
-  &:-ms-input-placeholder {@content;}
-  &.placeholder {@content;}
+  &::-webkit-input-placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    opacity: 1;
+    @content;
+  }
+  &:-moz-placeholder {
+    @content;
+  }
+  &:-ms-input-placeholder {
+    @content;
+  }
+  &.placeholder {
+    @content;
+  }
 }

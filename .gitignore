@@ -1,3 +1,7 @@
+# configs
+.env*
+!.env*.example
+
 # install scripts
 init_wp
 wp-host-update*
@@ -40,6 +44,12 @@ tmp
 *.tar
 *.rar
 
-#npm dependencies
+# npm dependencies
 /node_modules/
 package-lock.json
+
+# cache
+.stylelintcache
+
+# report
+report.*

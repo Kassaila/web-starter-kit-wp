@@ -1,31 +1,21 @@
 /**
  * Build html from templates
  */
-'use strict';
 
+const env = require('../helpers/env');
 const gulp = require('gulp');
-const fileInclude = require('gulp-file-include');
+const nunjucks = require('gulp-nunjucks');
 
 const notifier = require('../helpers/notifier');
 const global = require('../gulp-config.js');
 
-module.exports = function () {
-  const config = {
-    prefix: '@@',
-    basepath: `./${global.buildHtml.templates}`,
-    indent: true,
-    context: {
-      publicJs: global.file.buildJs,
-      vendorJs: global.file.vendorJs,
-      mainStyles: global.file.mainStyles,
-      vendorStyles: global.file.vendorStyles,
-    },
-  };
+env({ path: process.env.DOTENV_CONFIG_PATH });
 
-  return (done) => {
-    return gulp.src(`./${global.buildHtml.templates}/**/*.html`)
-      .pipe(fileInclude(config))
+module.exports = function () {
+  return (done) =>
+    gulp
+      .src([`./${global.buildHtml.templates}/*.html`, `./${global.buildHtml.templates}/*.njk`])
+      .pipe(nunjucks.compile({ 'process.env': process.env }))
       .on('error', (error) => notifier.error(error.message, 'HTML compiling error', done))
       .pipe(gulp.dest(`../${global.folder.build}`));
-  };
 };

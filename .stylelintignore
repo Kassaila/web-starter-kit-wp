@@ -1,0 +1,4 @@
+scss/abstracts/functions.scss
+scss/abstracts/mixins.scss
+node_modules
+vendor_entries
