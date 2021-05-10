@@ -9,6 +9,7 @@ const global = require('../gulp-config.js');
 module.exports = function (options) {
   return () => {
     options.browserSyncInstance.init({
+      open: false,
       notify: false,
       injectChanges: false,
       minify: false,

@@ -1,8 +1,13 @@
 const dotenv = require('dotenv');
 const dotenvExpand = require('dotenv-expand');
 
-module.exports = function (config) {
-  const dotenvConfig = dotenv.config(config);
+module.exports = {
+  init(config) {
+    const dotenvConfig = dotenv.config(config);
 
-  dotenvExpand(dotenvConfig);
+    dotenvExpand(dotenvConfig);
+  },
+  sort(env) {
+    return Object.fromEntries(Object.entries(env).filter(([key, val]) => /WSK_/.test(key)));
+  },
 };

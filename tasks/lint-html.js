@@ -2,6 +2,7 @@
  * Hint HTML
  */
 
+const path = require('path');
 const gulp = require('gulp');
 const htmlhint = require('gulp-htmlhint');
 
@@ -11,6 +12,6 @@ module.exports = function () {
   return () =>
     gulp
       .src(`../${global.folder.build}/**/*.html`)
-      .pipe(htmlhint('.htmlhintrc.json'))
+      .pipe(htmlhint({ htmlhintrc: path.resolve(__dirname, '../.htmlhintrc.json') }))
       .pipe(htmlhint.reporter('htmlhint-stylish'));
 };

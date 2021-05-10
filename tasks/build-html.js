@@ -2,20 +2,22 @@
  * Build html from templates
  */
 
-const env = require('../helpers/env');
 const gulp = require('gulp');
 const nunjucks = require('gulp-nunjucks');
 
+const env = require('../helpers/env');
 const notifier = require('../helpers/notifier');
 const global = require('../gulp-config.js');
 
-env({ path: process.env.DOTENV_CONFIG_PATH });
+env.init({ path: process.env.ENV_PATH });
 
 module.exports = function () {
+  const sortEnv = env.sort(process.env);
+
   return (done) =>
     gulp
       .src([`./${global.buildHtml.templates}/*.html`, `./${global.buildHtml.templates}/*.njk`])
-      .pipe(nunjucks.compile({ 'process.env': process.env }))
+      .pipe(nunjucks.compile({ env: sortEnv }))
       .on('error', (error) => notifier.error(error.message, 'HTML compiling error', done))
       .pipe(gulp.dest(`../${global.folder.build}`));
 };

@@ -5,10 +5,8 @@
 # caches
 Thumbs.db
 .DS_Store
-/src/bootstrap/cache/*
 
 # IDE config
-/src/.idea
 /Homestead.json
 /Homestead.yaml
 /_ide_helper.php
@@ -31,7 +29,6 @@ package-lock.json
 
 # production
 /dist
-/docs
 
 # Logs
 npm-debug.log
