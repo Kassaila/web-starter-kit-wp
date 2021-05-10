@@ -1,6 +1,0 @@
-{
-  "**/*": ["npx prettier --write --ignore-unknown"],
-  "../public/**/*.html": ["npx htmlhint"],
-  "scss/**/*.scss": "npx stylelint --fix --cache",
-  "js/**/*.js": ["npx eslint --fix"]
-}

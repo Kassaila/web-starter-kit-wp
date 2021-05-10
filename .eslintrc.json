@@ -17,6 +17,7 @@
   "plugins": ["import", "@babel", "prettier"],
   "extends": ["airbnb-base", "prettier"],
   "rules": {
+    "import/no-unresolved": "off",
     "no-param-reassign": ["error", { "props": false }],
     "no-underscore-dangle": "off",
     "func-names": ["warn", "as-needed"],

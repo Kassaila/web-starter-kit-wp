@@ -1,7 +1,7 @@
 /**
  *
  *  Web Starter Kit
- *  Copyright (c) 2020 JustCoded.
+ *  Copyright (c) 2021 JustCoded.
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,6 @@
  *
  */
 
-require('dotenv').config();
 const gulp = require('gulp');
 const browserSyncInstance = require('browser-sync').create();
 
@@ -45,10 +44,12 @@ const watch = require('./tasks/watch');
  * Initialize .env files
  */
 gulp.task('load-env', loadEnv());
+
 /**
  * Clean build folders
  */
 gulp.task('clean-build', cleanBuild());
+
 /**
  * Lint HTML
  */
@@ -70,7 +71,7 @@ gulp.task('lint-styles', lintStyles());
 gulp.task('build-styles', buildStyles());
 
 /**
- * Build custom styles files listed in the config, without sourcemaps & Gcmq
+ * Build custom styles files listed in the config
  */
 gulp.task('build-styles-custom', buildStylesCustom());
 
@@ -106,12 +107,12 @@ gulp.task(
   'default',
   gulp.series(
     'clean-build',
-    'lint-js',
     'lint-styles',
+    'lint-js',
+    'build-js',
     gulp.parallel(
       gulp.series('build-html', 'lint-html'),
-      gulp.series('build-styles', 'build-styles-custom', 'build-styles-vendors'),
-      gulp.series('build-js')
+      gulp.series('build-styles', 'build-styles-custom', 'build-styles-vendors')
     ),
     gulp.parallel('browser-sync', 'watch')
   )
@@ -124,12 +125,12 @@ gulp.task(
   'build',
   gulp.series(
     'clean-build',
-    'lint-js',
     'lint-styles',
+    'lint-js',
+    'build-js',
     gulp.parallel(
       gulp.series('build-html', 'lint-html'),
-      gulp.series('build-styles', 'build-styles-custom', 'build-styles-vendors'),
-      gulp.series('build-js')
+      gulp.series('build-styles', 'build-styles-custom', 'build-styles-vendors')
     )
   )
 );

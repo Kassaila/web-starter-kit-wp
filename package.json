@@ -32,7 +32,7 @@
     "cross-env": "7.0.3",
     "cssnano": "5.0.2",
     "del": "6.0.0",
-    "dotenv": "9.0.1",
+    "dotenv": "9.0.2",
     "dotenv-expand": "5.1.0",
     "eslint": "7.26.0",
     "eslint-config-airbnb-base": "14.2.1",
@@ -48,26 +48,23 @@
     "gulp-sass": "4.1.0",
     "gulp-stylelint": "13.0.0",
     "htmlhint-stylish": "1.0.3",
-    "husky": "5.2.0",
-    "lint-staged": "11.0.0",
     "node-notifier": "9.0.1",
     "postcss": "8.2.14",
-    "postcss-import": "14.0.1",
+    "postcss-import": "14.0.2",
     "postcss-sort-media-queries": "3.9.10",
-    "prettier": "2.2.1",
+    "prettier": "2.3.0",
     "sass": "1.32.12",
     "stylelint": "13.13.1",
     "stylelint-config-recommended": "5.0.0",
     "stylelint-order": "4.1.0",
     "stylelint-scss": "3.19.0",
-    "webpack": "5.36.2"
+    "webpack": "5.37.0"
   },
   "engines": {
     "node": ">=12.0.0 <15"
   },
   "scripts": {
-    "postinstall": "npx gulp load-env",
-    "lint-staged": "npx lint-staged -r --allow-empty",
+    "prepare": "npx gulp load-env",
     "format": "npx prettier --write --ignore-unknown",
     "dev": "npx gulp",
     "test": "npx gulp build --log-level -LLLL",
@@ -75,8 +72,8 @@
     "lint-html": "npx gulp lint-html",
     "lint-styles": "npx gulp lint-styles",
     "lint-js": "npx gulp lint-js",
-    "fix-js": "npx prettier js/**/*.js --write && npx eslint js/**/*.js --fix",
-    "fix-styles": "npx prettier scss/**/*.scss --write && npx stylelint scss/**/*.scss --fix --cache"
+    "fix-styles": "npx prettier scss/**/*.scss --write && npx stylelint scss/**/*.scss --fix --cache",
+    "fix-js": "npx prettier js/**/*.js --write && npx eslint js/**/*.js --fix"
   },
   "dependencies": {
     "normalize.css": "8.0.1"
